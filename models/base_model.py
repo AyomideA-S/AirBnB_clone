@@ -18,7 +18,7 @@ class BaseModel:
         process"""
 
         # initialize if nothing is passed
-        if kwargs == {}:
+        if not kwargs:
             self.id = str(uuid4())
             self.created_at = datetime.utcnow()
             self.updated_at = datetime.utcnow()
@@ -54,9 +54,11 @@ class BaseModel:
 
     def to_dict(self):
         """Returns a dictionary representation of self"""
-        temp = {**self.__dict__}
-        temp['__class__'] = type(self).__name__
-        temp['created_at'] = self.created_at.strftime('%Y-%m-%dT%H:%M:%S.%f')
+        temp = {
+            **self.__dict__,
+            '__class__': type(self).__name__,
+            'created_at': self.created_at.strftime('%Y-%m-%dT%H:%M:%S.%f'),
+        }
         temp['updated_at'] = self.updated_at.strftime('%Y-%m-%dT%H:%M:%S.%f')
         return temp
 
